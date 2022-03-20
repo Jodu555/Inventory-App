@@ -29,17 +29,19 @@ export default {
 					filterable: true,
 					value: 'name',
 				},
-				{ text: 'Chest', value: 'chest' },
+				{ text: 'Chest', value: 'chest', filterable: true },
 				{ text: 'Amount', value: 'amount' },
-				// { text: 'Carbs (g)', value: 'carbs' },
-				// { text: 'Protein (g)', value: 'protein' },
-				// { text: 'Iron (%)', value: 'iron' },
 			],
 			items: [
 				{
 					name: 'Noodles',
 					chest: '#78',
 					amount: 8,
+				},
+				{
+					name: 'Tomatenmark',
+					chest: '#69',
+					amount: 420,
 				},
 			],
 		};
