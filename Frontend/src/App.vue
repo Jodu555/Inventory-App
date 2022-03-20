@@ -1,27 +1,22 @@
 <template>
 	<v-app>
-		<v-toolbar>
-			Inventory Appp
-			<!-- <v-toolbar-title>Inventory App</v-toolbar-title> -->
-		</v-toolbar>
-		<!-- <v-app-bar absolute app>
-			<v-app-bar-title>Inventory App</v-app-bar-title>
-
-			<v-spacer></v-spacer>
-			<a to="/">Home</a>
-			<v-btn elevation="0"> Home </v-btn>
-		</v-app-bar> -->
+		<AppNavbar />
 
 		<v-main>
-			<v-container> Hello, World </v-container>
+			<v-container>
+				<router-view></router-view>
+			</v-container>
 		</v-main>
 	</v-app>
 </template>
 
 <script>
+import AppNavbar from '@/components/AppNavbar';
 export default {
 	name: 'App',
-
+	components: {
+		AppNavbar,
+	},
 	data: () => ({}),
 };
 </script>
