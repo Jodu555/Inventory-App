@@ -202,9 +202,7 @@ export default {
 				//EDITED
 				this.updateItem({ UUID: this.editItemUUID, ...this.editedItem });
 				this.items = this.items.map((e) => {
-					if (e.UUID == this.editItemUUID) return { UUID: e.UUID, ...this.editedItem };
-
-					return e;
+					return e.UUID == this.editItemUUID ? { UUID: e.UUID, ...this.editedItem } : e;
 				});
 			}
 			this.close();
