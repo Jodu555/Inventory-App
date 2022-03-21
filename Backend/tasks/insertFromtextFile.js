@@ -9,6 +9,7 @@ require('../src/utils/database')();
 
 const items = fs.readFileSync(path.join(__dirname, 'text.txt'), 'utf-8').split('\r\n').map(line => {
     const [chest, name, amount] = line.split(';');
+    amount = amount == undefined ? 0 : amount;
     const item = {
         chest,
         name,
@@ -17,6 +18,6 @@ const items = fs.readFileSync(path.join(__dirname, 'text.txt'), 'utf-8').split('
     return item;
 });
 
-console.log(items);
+console.log(items, items.length);
 
 
