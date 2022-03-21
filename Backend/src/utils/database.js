@@ -38,6 +38,22 @@ const createSchemas = () => {
             max: 999,
         },
     }, 'items');
+    database.registerSchema('itemUpdationSchema', {
+        name: {
+            type: 'TEXT',
+            anum: true,
+        },
+        chest: {
+            type: 'INT',
+            min: 0,
+            max: 999,
+        },
+        amount: {
+            type: 'IBIGINT',
+            min: 0,
+            max: 999,
+        },
+    }, 'items');
 }
 
 module.exports = initialize;

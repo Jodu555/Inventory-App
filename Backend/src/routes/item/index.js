@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', controller.list); //List items
 router.post('/', controller.create); //Create Item
-router.patch('/', controller.update); //Update Item
+router.patch('/:uuid', controller.update); //Update Item
 
 
 
