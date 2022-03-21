@@ -103,6 +103,19 @@
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
+				<v-dialog v-model="dialogDelete" max-width="50vw">
+					<v-card>
+						<v-card-title class="text-h5"
+							>Bist du dir sicher, dass du dieses Item löschen willst ?</v-card-title
+						>
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn color="blue darken-1" text @click="closeDelete">Nöö, nicht mehr!</v-btn>
+							<v-btn color="blue darken-1" text @click="deleteItemConfirm">Ja mach jetzt!</v-btn>
+							<v-spacer></v-spacer>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
 			</v-layout>
 		</v-card-title>
 		<v-data-table :headers="headers" :items="items" :search="search">
@@ -181,10 +194,36 @@ export default {
 			this.editedItem = Object.assign({}, item);
 			this.dialog = true;
 		},
+
+		deleteItem(item) {
+			this.editItemUUID = item.UUID;
+			this.editedItem = Object.assign({}, item);
+			this.dialogDelete = true;
+		},
+		deleteItemConfirm() {
+			console.log('DELETE', this.editItemUUID);
+			this.items = this.items.filter((e) => e.UUID !== this.editItemUUID);
+			this.closeDelete();
+		},
+		closeDelete() {
+			this.dialogDelete = false;
+			this.$nextTick(() => {
+				this.editedItem = Object.assign({}, this.defaultItem);
+				this.editedIndex = -1;
+			});
+		},
 	},
 	computed: {
 		formTitle() {
 			return this.formType === -1 ? 'neuer Eintrag' : 'Eintrag Bearbeiten';
+		},
+	},
+	watch: {
+		dialog(val) {
+			val || this.close();
+		},
+		dialogDelete(val) {
+			val || this.closeDelete();
 		},
 	},
 	data() {
@@ -220,61 +259,4 @@ export default {
 		this.fetchData();
 	},
 };
-
-// export default {
-// 	data: () => ({
-// 		dialog: false,
-// 		dialogDelete: false,
-// 	}),
-// 	watch: {
-// 		dialog(val) {
-// 			val || this.close();
-// 		},
-// 		dialogDelete(val) {
-// 			val || this.closeDelete();
-// 		},
-// 	},
-// 	created() {
-// 		this.initialize();
-// 	},
-// 	methods: {
-//
-// 		editItem(item) {
-// 			this.editedIndex = this.desserts.indexOf(item);
-// 			this.editedItem = Object.assign({}, item);
-// 			this.dialog = true;
-// 		},
-// 		deleteItem(item) {
-// 			this.editedIndex = this.desserts.indexOf(item);
-// 			this.editedItem = Object.assign({}, item);
-// 			this.dialogDelete = true;
-// 		},
-// 		deleteItemConfirm() {
-// 			this.desserts.splice(this.editedIndex, 1);
-// 			this.closeDelete();
-// 		},
-// 		close() {
-// 			this.dialog = false;
-// 			this.$nextTick(() => {
-// 				this.editedItem = Object.assign({}, this.defaultItem);
-// 				this.editedIndex = -1;
-// 			});
-// 		},
-// 		closeDelete() {
-// 			this.dialogDelete = false;
-// 			this.$nextTick(() => {
-// 				this.editedItem = Object.assign({}, this.defaultItem);
-// 				this.editedIndex = -1;
-// 			});
-// 		},
-// 		save() {
-// 			if (this.editedIndex > -1) {
-// 				Object.assign(this.desserts[this.editedIndex], this.editedItem);
-// 			} else {
-// 				this.desserts.push(this.editedItem);
-// 			}
-// 			this.close();
-// 		},
-// 	},
-// };
 </script>
