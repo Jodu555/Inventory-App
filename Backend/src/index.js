@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const dotenv = require('dotenv').config();
 
 const { Database } = require('@jodu555/mysqlapi');
-const database = Database.createDatabase('localhost', 'root', '', 'rt-chat');
+const database = Database.createDatabase('localhost', 'root', '', 'inventory-app');
 database.connect();
 require('./utils/database')();
 
