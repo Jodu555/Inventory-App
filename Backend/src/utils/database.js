@@ -1,4 +1,5 @@
 const { Database } = require('@jodu555/mysqlapi');
+const { create_UUID } = require('./utils');
 const database = Database.getDatabase();
 
 const initialize = () => {
@@ -21,7 +22,22 @@ const createTables = () => {
 }
 
 const createSchemas = () => {
-
+    database.registerSchema('itemCreationSchema', {
+        UUID: {
+            value: create_UUID,
+        },
+        name: {
+            anum: true,
+        },
+        chest: {
+            min: 0,
+            max: 999,
+        },
+        amount: {
+            min: 0,
+            max: 999,
+        },
+    }, 'items');
 }
 
 module.exports = initialize;
