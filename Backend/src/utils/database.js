@@ -52,7 +52,7 @@ const createSchemas = () => {
         },
         amount: {
             required: false,
-            type: 'IBIGINT',
+            type: 'BIGINT',
             min: 0,
             max: 999,
         },
