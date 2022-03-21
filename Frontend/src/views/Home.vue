@@ -103,11 +103,22 @@ export default {
 			const response = await fetch('http://localhost:3100/items');
 			this.items = await response.json();
 		},
+		async updateItem(item) {
+			const UUID = item.UUID;
+			const updateItem = JSON.parse(JSON.stringify(item));
+			delete updateItem.UUID;
+			await fetch(`http://localhost:3100/items/${UUID}`, {
+				method: 'PATCH',
+				body: JSON.stringify(updateItem),
+			});
+		},
 		addStock(item) {
 			item.amount++;
+			this.updateItem(item);
 		},
 		removeStock(item) {
 			item.amount--;
+			this.updateItem(item);
 		},
 	},
 	data() {
