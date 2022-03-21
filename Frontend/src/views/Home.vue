@@ -136,7 +136,16 @@
 				<v-icon @click="deleteItem(item)"> mdi-delete </v-icon>
 			</template>
 			<template v-slot:no-data>
-				<v-btn color="primary" @click="fetchData"> Reload </v-btn>
+				<v-btn
+					color="primary"
+					@click="
+						() => {
+							dialog = true;
+						}
+					"
+				>
+					Add Item
+				</v-btn>
 			</template>
 		</v-data-table>
 	</v-card>
@@ -148,6 +157,50 @@
 export default {
 	name: 'Home',
 	components: {},
+	data() {
+		return {
+			search: '',
+			editItemUUID: -1,
+			dialog: false,
+			dialogDelete: false,
+			headers: [
+				{
+					text: 'Name',
+					align: 'start',
+					filterable: true,
+					value: 'name',
+				},
+				{ text: 'Kiste', value: 'chest', filterable: true },
+				{ text: 'Anzahl', value: 'amount' },
+				{ text: 'Aktion', value: 'actions' },
+			],
+			editedItem: {},
+			defaultItem: {
+				name: '',
+				chest: 1,
+				amount: 1,
+			},
+
+			items: [],
+		};
+	},
+	created() {
+		this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
+		this.fetchData();
+	},
+	watch: {
+		dialog(val) {
+			val || this.close();
+		},
+		dialogDelete(val) {
+			val || this.closeDelete();
+		},
+	},
+	computed: {
+		formTitle() {
+			return this.formType === -1 ? 'neuer Eintrag' : 'Eintrag Bearbeiten';
+		},
+	},
 	methods: {
 		async fetchData() {
 			this.items = [];
@@ -236,51 +289,6 @@ export default {
 				this.editedIndex = -1;
 			});
 		},
-	},
-	computed: {
-		formTitle() {
-			return this.formType === -1 ? 'neuer Eintrag' : 'Eintrag Bearbeiten';
-		},
-	},
-	watch: {
-		dialog(val) {
-			val || this.close();
-		},
-		dialogDelete(val) {
-			val || this.closeDelete();
-		},
-	},
-	data() {
-		return {
-			search: '',
-			editItemUUID: -1,
-			dialog: false,
-			dialogDelete: false,
-			headers: [
-				{
-					text: 'Name',
-					align: 'start',
-					filterable: true,
-					value: 'name',
-				},
-				{ text: 'Kiste', value: 'chest', filterable: true },
-				{ text: 'Anzahl', value: 'amount' },
-				{ text: 'Aktion', value: 'actions' },
-			],
-			editedItem: {},
-			defaultItem: {
-				name: '',
-				chest: 1,
-				amount: 1,
-			},
-
-			items: [],
-		};
-	},
-
-	created() {
-		this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
-		this.fetchData();
 	},
 };
 </script>
