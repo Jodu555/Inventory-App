@@ -25,13 +25,11 @@ const update = async (req, res, next) => {
     try {
         const UUID = req.params.uuid;
 
-        if (!(await database.get('items').getOne({ UUID }))) {
+        if (!(await database.get('items').getOne({ UUID })))
             throw new Error('An Item with that uuid does not exists')
-        }
 
         const validation = database.getSchema('itemUpdationSchema').validate(req.body, true);
         const item = validation.object;
-
         const updated = (await database.get('items').update({ UUID }, item))[0];
 
         res.json(updated);

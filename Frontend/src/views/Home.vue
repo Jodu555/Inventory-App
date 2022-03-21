@@ -109,6 +109,9 @@ export default {
 			delete updateItem.UUID;
 			await fetch(`http://localhost:3100/items/${UUID}`, {
 				method: 'PATCH',
+				headers: {
+					'content-type': 'application/json',
+				},
 				body: JSON.stringify(updateItem),
 			});
 		},
