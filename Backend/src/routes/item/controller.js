@@ -32,9 +32,9 @@ const update = async (req, res, next) => {
         const validation = database.getSchema('itemUpdationSchema').validate(req.body, true);
         const item = validation.object;
 
-        const updated = await database.get('items').update({ UUID }, item);
+        const updated = (await database.get('items').update({ UUID }, item))[0];
 
-        res.json(response);
+        res.json(updated);
     } catch (error) {
         next(error);
     }

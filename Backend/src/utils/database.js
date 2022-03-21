@@ -42,13 +42,16 @@ const createSchemas = () => {
         name: {
             type: 'TEXT',
             anum: true,
+            required: false,
         },
         chest: {
             type: 'INT',
             min: 0,
             max: 999,
+            required: false,
         },
         amount: {
+            required: false,
             type: 'IBIGINT',
             min: 0,
             max: 999,
