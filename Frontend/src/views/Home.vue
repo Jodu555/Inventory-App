@@ -60,9 +60,6 @@
 			<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
 			<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
 		</template>
-		<template v-slot:no-data>
-			<v-btn color="primary" @click="initialize"> Reset </v-btn>
-		</template>
 	</v-data-table> -->
 	<v-card>
 		<v-card-title>
@@ -130,6 +127,7 @@ export default {
 	components: {},
 	methods: {
 		async fetchData() {
+			this.items = [];
 			const response = await fetch('http://localhost:3100/items');
 			this.items = await response.json();
 		},
@@ -142,7 +140,11 @@ export default {
 				headers: {
 					'content-type': 'application/json',
 				},
-				body: JSON.stringify(updateItem),
+				body: JSON.stringify({
+					name: updateItem.name,
+					chest: Number(updateItem.chest),
+					amount: Number(updateItem.amount),
+				}),
 			});
 		},
 		addStock(item) {
@@ -153,7 +155,19 @@ export default {
 			item.amount--;
 			this.updateItem(item);
 		},
-		save() {},
+		save() {
+			console.log('SAVED');
+			if (this.editItemUUID == -1) {
+				//CREATED
+			} else {
+				//EDITED
+				this.updateItem({ UUID: this.editItemUUID, ...this.editedItem });
+				this.items = this.items.map((e) => {
+					if (e.UUID == this.editItemUUID) return { UUID: e.UUID, ...this.editedItem };
+				});
+			}
+			this.close();
+		},
 		close() {
 			this.dialog = false;
 			this.$nextTick(() => {
@@ -162,6 +176,7 @@ export default {
 			});
 		},
 		editItem(item) {
+			console.log('EDITING', item);
 			this.editItemUUID = item.UUID;
 			this.editedItem = Object.assign({}, item);
 			this.dialog = true;
@@ -201,7 +216,7 @@ export default {
 	},
 
 	created() {
-		this.editItem = JSON.parse(JSON.stringify(this.defaultItem));
+		this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
 		this.fetchData();
 	},
 };
@@ -210,22 +225,6 @@ export default {
 // 	data: () => ({
 // 		dialog: false,
 // 		dialogDelete: false,
-// 		desserts: [],
-// 		editedIndex: -1,
-// 		editedItem: {
-// 			name: '',
-// 			calories: 0,
-// 			fat: 0,
-// 			carbs: 0,
-// 			protein: 0,
-// 		},
-// 		defaultItem: {
-// 			name: '',
-// 			calories: 0,
-// 			fat: 0,
-// 			carbs: 0,
-// 			protein: 0,
-// 		},
 // 	}),
 // 	watch: {
 // 		dialog(val) {
