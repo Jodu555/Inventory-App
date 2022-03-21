@@ -85,6 +85,9 @@
 				<v-icon class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
 				<v-icon @click="deleteItem(item)"> mdi-delete </v-icon>
 			</template>
+			<template v-slot:no-data>
+				<v-btn color="primary" @click="fetchData"> Reload </v-btn>
+			</template>
 		</v-data-table>
 	</v-card>
 </template>
@@ -96,10 +99,16 @@ export default {
 	name: 'Home',
 	components: {},
 	methods: {
-		addStock(item) {
-			console.log('Adding ', item);
+		async fetchData() {
+			const response = await fetch('http://localhost:3100/items');
+			this.items = await response.json();
 		},
-		removeStock(item) {},
+		addStock(item) {
+			item.amount++;
+		},
+		removeStock(item) {
+			item.amount--;
+		},
 	},
 	data() {
 		return {
@@ -115,29 +124,12 @@ export default {
 				{ text: 'Anzahl', value: 'amount' },
 				{ text: 'Aktion', value: 'actions' },
 			],
-			items: [
-				{
-					name: 'Noodles',
-					chest: '#78',
-					amount: 8,
-				},
-				{
-					name: 'Tomatenmark',
-					chest: '#69',
-					amount: 420,
-				},
-				{
-					name: 'Mehl',
-					chest: '#7',
-					amount: -5,
-				},
-				{
-					name: 'Zucker',
-					chest: '#7',
-					amount: 54,
-				},
-			],
+			items: [],
 		};
+	},
+
+	created() {
+		this.fetchData();
 	},
 };
 
