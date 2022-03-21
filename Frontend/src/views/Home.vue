@@ -160,6 +160,20 @@ export default {
 				}),
 			});
 		},
+		async createItem(item) {
+			const response = await fetch(`http://localhost:3100/items/`, {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+				},
+				body: JSON.stringify({
+					name: item.name,
+					chest: Number(item.chest),
+					amount: Number(item.amount),
+				}),
+			});
+			return await response.json();
+		},
 		addStock(item) {
 			item.amount++;
 			this.updateItem(item);
@@ -168,10 +182,12 @@ export default {
 			item.amount--;
 			this.updateItem(item);
 		},
-		save() {
+		async save() {
 			console.log('SAVED');
 			if (this.editItemUUID == -1) {
 				//CREATED
+				const item = await this.createItem(this.editedItem);
+				this.items.push(item);
 			} else {
 				//EDITED
 				this.updateItem({ UUID: this.editItemUUID, ...this.editedItem });
