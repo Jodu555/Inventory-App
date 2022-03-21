@@ -5,6 +5,7 @@ const router = express.Router();
 router.get('/', controller.list); //List items
 router.post('/', controller.create); //Create Item
 router.patch('/:uuid', controller.update); //Update Item
+router.delete('/:uuid', controller.remove); //Update Item
 
 
 
