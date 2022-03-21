@@ -87,10 +87,20 @@
 										<v-text-field v-model="editedItem.name" label="Name"></v-text-field>
 									</v-col>
 									<v-col cols="12" sm="6" md="4">
-										<v-text-field v-model="editedItem.chest" label="Kiste"></v-text-field>
+										<v-text-field
+											v-model="editedItem.chest"
+											label="Kiste"
+											type="number"
+											min="0"
+										></v-text-field>
 									</v-col>
 									<v-col cols="12" sm="6" md="4">
-										<v-text-field v-model="editedItem.amount" label="Stückzahl"></v-text-field>
+										<v-text-field
+											v-model="editedItem.amount"
+											label="Stückzahl"
+											type="number"
+											min="0"
+										></v-text-field>
 									</v-col>
 								</v-row>
 							</v-container>
@@ -179,11 +189,11 @@ export default {
 			this.updateItem(item);
 		},
 		removeStock(item) {
+			if (item.amount == 0) return;
 			item.amount--;
 			this.updateItem(item);
 		},
 		async save() {
-			console.log('SAVED');
 			if (this.editItemUUID == -1) {
 				//CREATED
 				const item = await this.createItem(this.editedItem);
@@ -193,6 +203,8 @@ export default {
 				this.updateItem({ UUID: this.editItemUUID, ...this.editedItem });
 				this.items = this.items.map((e) => {
 					if (e.UUID == this.editItemUUID) return { UUID: e.UUID, ...this.editedItem };
+
+					return e;
 				});
 			}
 			this.close();
@@ -205,7 +217,6 @@ export default {
 			});
 		},
 		editItem(item) {
-			console.log('EDITING', item);
 			this.editItemUUID = item.UUID;
 			this.editedItem = Object.assign({}, item);
 			this.dialog = true;
@@ -217,7 +228,6 @@ export default {
 			this.dialogDelete = true;
 		},
 		deleteItemConfirm() {
-			console.log('DELETE', this.editItemUUID);
 			this.items = this.items.filter((e) => e.UUID !== this.editItemUUID);
 			this.closeDelete();
 		},
