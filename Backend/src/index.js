@@ -36,11 +36,4 @@ if (process.env.https) {
 const PORT = process.env.PORT || 3100;
 server.listen(PORT, () => {
     console.log(`Express App Listening ${process.env.https ? 'with SSL ' : ''}on ${PORT}`);
-
-    database.get('items').create({
-        UUID: create_UUID(),
-        name: 'Nudeln',
-        chest: 8,
-        amount: 7
-    });
 });

@@ -7,7 +7,7 @@ const initialize = () => {
 }
 
 const createTables = () => {
-    database.createTable('item', {
+    database.createTable('items', {
         options: {
             softdelete: false,
             timestamps: true,
