@@ -29,8 +29,14 @@ if (process.env.https) {
     server = http.createServer(app);
 }
 
-
 // Your Middleware handlers here
+const { router: item_router } = require('./routes/item');
+
+app.use('/items', item_router);
+
+const { errorHandling, notFound } = require('./utils/middleware');
+app.use('*', notFound);
+app.use(errorHandling);
 
 
 const PORT = process.env.PORT || 3100;
