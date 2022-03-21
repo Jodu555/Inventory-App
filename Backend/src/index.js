@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const dotenv = require('dotenv').config();
 
 const { Database } = require('@jodu555/mysqlapi');
+const { create_UUID } = require('./utils/utils');
 const database = Database.createDatabase('localhost', 'root', '', 'inventory-app');
 database.connect();
 require('./utils/database')();
@@ -35,4 +36,11 @@ if (process.env.https) {
 const PORT = process.env.PORT || 3100;
 server.listen(PORT, () => {
     console.log(`Express App Listening ${process.env.https ? 'with SSL ' : ''}on ${PORT}`);
+
+    database.get('items').create({
+        UUID: create_UUID(),
+        name: 'Nudeln',
+        chest: 8,
+        amount: 7
+    });
 });

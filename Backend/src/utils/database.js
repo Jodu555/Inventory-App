@@ -12,7 +12,6 @@ const createTables = () => {
             softdelete: false,
             timestamps: true,
             PK: 'UUID',
-            K: ['name'],
         },
         UUID: { type: 'varchar(64)', null: false },
         name: { type: 'TEXT', null: false },
