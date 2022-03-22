@@ -198,7 +198,7 @@ export default {
 	},
 	computed: {
 		formTitle() {
-			return this.formType === -1 ? 'neuer Eintrag' : 'Eintrag Bearbeiten';
+			return this.editItemUUID == -1 ? 'Neuer Eintrag' : 'Eintrag Bearbeiten';
 		},
 	},
 	methods: {
