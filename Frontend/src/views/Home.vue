@@ -153,7 +153,7 @@
 
 <script>
 // @ is an alias to /src
-
+const API_URL = 'http://localhost:3100/';
 export default {
 	name: 'Home',
 	components: {},
@@ -204,14 +204,14 @@ export default {
 	methods: {
 		async fetchData() {
 			this.items = [];
-			const response = await fetch('http://localhost:3100/items');
+			const response = await fetch(`${API_URL}items`);
 			this.items = await response.json();
 		},
 		async updateItem(item) {
 			const UUID = item.UUID;
 			const updateItem = JSON.parse(JSON.stringify(item));
 			delete updateItem.UUID;
-			await fetch(`http://localhost:3100/items/${UUID}`, {
+			await fetch(`${API_URL}items/${UUID}`, {
 				method: 'PATCH',
 				headers: {
 					'content-type': 'application/json',
@@ -224,7 +224,7 @@ export default {
 			});
 		},
 		async createItem(item) {
-			const response = await fetch(`http://localhost:3100/items/`, {
+			const response = await fetch(`${API_URL}items/`, {
 				method: 'POST',
 				headers: {
 					'content-type': 'application/json',
