@@ -272,7 +272,6 @@ export default {
 			this.editedItem = Object.assign({}, item);
 			this.dialog = true;
 		},
-
 		deleteItem(item) {
 			this.editItemUUID = item.UUID;
 			this.editedItem = Object.assign({}, item);
