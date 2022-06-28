@@ -153,7 +153,7 @@
 
 <script>
 // @ is an alias to /src
-const API_URL = 'http://localhost:3100/';
+const API_URL = 'http://192.168.2.112:3100/';
 export default {
 	name: 'Home',
 	components: {},
