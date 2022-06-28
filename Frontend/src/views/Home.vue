@@ -129,7 +129,7 @@
 			</v-layout>
 		</v-card-title>
 		<v-data-table :headers="headers" :items="items" :search="search">
-			<template v-slot:item.actions="{ item }">
+			<template v-slot:[`item.actions`]="{ item }">
 				<v-icon class="mr-2" @click="addStock(item)" color="primary"> mdi-plus </v-icon>
 				<v-icon class="mr-10" @click="removeStock(item)" color="accent"> mdi-minus </v-icon>
 				<v-icon class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
